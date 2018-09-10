@@ -2,7 +2,11 @@ var Diagnostics = require('Diagnostics');
 var Scene = require('Scene');
 var FaceTracking = require('FaceTracking');
 var Animation = require('Animation');
-Diagnostics.log(Animation);
+var Materials = require("Materials");
+// Diagnostics.log(Animation);
+
+// get the cloud material
+var mat_cloud = Materials.get("mat_cloud");
 
 // get the plane and set it's initial position on the screen
 var cloud = Scene.root.find("cloud0");
@@ -13,13 +17,15 @@ FaceTracking.count.monitor().subscribe( function(e) {
 	if (e.newValue > 0) {
 
 		// hide the plane in case there is no face
-		cloud.hidden = false;
+		// cloud.hidden = false;
+		fadeIn(cloud, mat_cloud);
 
 		// function to track the head's position
 		trackHead()
 	} else {
 		
-		cloud.hidden = true;
+		// cloud.hidden = true;
+		fadeOut(cloud, mat_cloud);
 	}
 })
 
@@ -59,8 +65,6 @@ function animateFloating(obj, deltaY, ms) {
 
 // animate the cloud 4 units in Y axis in 3 seconds
 animateFloating(cloud, 3, 2000);
-
-var mat_cloud = Materials.get("mat_cloud")
 
 // FadeIn
 function fadeIn(obj, mat) {
